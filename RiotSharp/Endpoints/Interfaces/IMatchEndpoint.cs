@@ -24,12 +24,16 @@ namespace RiotSharp.Endpoints.Interfaces
         /// </summary>
         /// <param name="region">Region in which the summoner is.</param>
         /// <param name="puuidId">PuuID for which you want to retrieve the match list.</param>
+        /// <param name="startTime">Epoch timestamp for start of match collection</param>
+        /// <param name="endTime">Epoch timestamp for end of match collection</param>
         /// <param name="start">The begin index to use for fetching matches.</param>
         /// <param name="count">The amount of matches to fetch.</param>
         /// <param name="queue">The queue Id to filter for, applicable for games from Patch 11.13 onwards.</param>
         /// <param name="type">The type of the games to filter for.</param>
         /// <returns>A list of MatchIds.</returns>
         Task<List<string>> GetMatchListAsync(Region region, string puuidId,
+            long? startTime = null,
+            long? endTime = null,
             long? start = null,
             long? count = null,
             long? queue = null,

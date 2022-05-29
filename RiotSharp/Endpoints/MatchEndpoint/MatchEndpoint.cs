@@ -54,9 +54,9 @@ namespace RiotSharp.Endpoints.MatchEndpoint
 
         /// <inheritdoc />
         public async Task<List<string>> GetMatchListAsync(Region region, string puuId,
-            long? start = null, long? count = null, long? queue = null, Enums.MatchFilterType? type = null)
+            long? startTime = null, long? endTime = null, long? start = null, long? count = null, long? queue = null, Enums.MatchFilterType? type = null)
         {
-            var addedArguments = CreateArgumentsListForMatchListRequest(start, count, queue, type);
+            var addedArguments = CreateArgumentsListForMatchListRequest(startTime, endTime, start, count, queue, type);
 
             var json = await _requester.CreateGetRequestAsync(MatchRootUrl + string.Format(MatchListByPuuIdUrl, puuId),
                 region, addedArguments).ConfigureAwait(false);
@@ -82,12 +82,22 @@ namespace RiotSharp.Endpoints.MatchEndpoint
         #region Helper
 
         private List<string> CreateArgumentsListForMatchListRequest(
+            long? startTime = null,
+            long? endTime = null,
             long? start = null,
             long? count = null,
             long? queue = null,
             Enums.MatchFilterType? type = null)
         {
             var addedArguments = new List<string>();
+            if (startTime.HasValue)
+            {
+                addedArguments.Add($"startTime={startTime.Value}");
+            }
+            if (endTime.HasValue)
+            {
+                addedArguments.Add($"endTime={endTime.Value}");
+            }
             if (start.HasValue)
             {
                 addedArguments.Add($"start={start.Value}");
